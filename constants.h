@@ -5,8 +5,7 @@
 
 using namespace std;
 
-constexpr bitset<162> SQUARE_ONES_162 {0b11};  // for grabbing the last two bits of a number
-constexpr bitset<18> SQUARE_ONES_18 {0b11};    // for grabbing the last two bits of a number
+constexpr bitset<162> SQUARE_ONES {0b11};  // for grabbing the last two bits of a number
 constexpr bitset<162> BOARD_ONES {0b111111111111111111};  // for grabbing the last 18 bits of a number
 
 constexpr int BLANK {0b00};

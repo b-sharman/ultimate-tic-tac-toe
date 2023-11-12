@@ -13,7 +13,7 @@ int main() {
 
     int bn, sn;  // board number, square number
     char p;  // player
-    while( true ) {
+    while( board.getWinner() == BLANK ) {
         cout << "Enter board number, square number, and player (X or O), separated by spaces: ";
         cin >> bn >> sn >> p;
         if( board.is_invalid_input( bn, sn ) ) {
@@ -27,6 +27,7 @@ int main() {
             board.print();
         }
     }
+    cout << INT_CHAR_MAP.at( board.getWinner() ) << " won!" << endl;
 
     return 0;
 }
