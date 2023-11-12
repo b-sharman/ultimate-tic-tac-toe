@@ -1,5 +1,7 @@
 class Board {
 public:
+    Board();
+
     /* @brief return whether a board number and square number are out of bounds
      *
      * "out of bounds" means not in the interval [0, 8]
@@ -34,4 +36,6 @@ public:
 private:
     // 9*9 = 81 squares, 81 * 2 bits per square = 162 bits
     std::bitset<162> board;
+    // the winner of each board, or BLANK if no one has won
+    std::bitset<18> wonBoards;
 };

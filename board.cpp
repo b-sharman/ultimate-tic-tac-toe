@@ -8,6 +8,12 @@
 
 using namespace std;
 
+Board::Board() {
+    // fill bitsets with zeros
+    board.reset();
+    wonBoards.reset();
+}
+
 bool Board::is_invalid_input( const int boardNum, const int squareNum ) const {
     return boardNum < 0 || boardNum > 8 || squareNum < 0 || squareNum > 8;
 }
@@ -20,13 +26,21 @@ int Board::offset( const int boardNum, const int squareNum ) const {
 }
 
 void Board::print() const {
+    int boardNum, squareNum;
     for( int i=0; i<81; i++ ) {
-        cout << ' ' << INT_CHAR_MAP.at(
-            getSquare(
-                i/27*3+i/3%3, // board number
-                i%3+i%27/9*3  // square number
-            )
-        );
+        boardNum = i/27*3+i/3%3;
+        squareNum = i%3+i%27/9*3;
+        unsigned long boardWinner = ((wonBoards >> boardNum*2) & SQUARE_ONES_18).to_ulong();
+        cout << ' ';
+        if( boardWinner == BLANK ) {
+            cout << INT_CHAR_MAP.at( getSquare( boardNum, squareNum ) );
+        }
+        else if( boardWinner == O ) {
+            cout << BIG_O.at( squareNum );
+        }
+        else if( boardWinner == X ) {
+            cout << BIG_X.at( squareNum );
+        }
         if( i%9==2 || i%9 == 5 ) cout << " |";
         if( i%9==8 ) cout << '\n';
         if( i==26 || i==53 ) cout << "-----------------------\n";
@@ -38,7 +52,7 @@ unsigned long Board::getSquare( const int& boardNum, const int& squareNum ) cons
     // shift the board so that the desired square is at the rightmost two bits,
     // then bitwise AND with 11 to remove any other bits, then convert to
     // unsigned long
-    return ((board >> offset( boardNum, squareNum )) & THREE).to_ulong();
+    return ((board >> offset( boardNum, squareNum )) & SQUARE_ONES_162).to_ulong();
 }
 
 void Board::setSquare( const int& boardNum, const int& squareNum, const int& value ) {
@@ -47,4 +61,16 @@ void Board::setSquare( const int& boardNum, const int& squareNum, const int& val
     // an index 1 greater than the second
     board.set( o+1, value >> 1 );  // first digit
     board.set( o, value & 0b1 );   // second digit
+
+    auto this_board = (board >> boardNum*18) & BOARD_ONES;
+    for( const auto& wb: WIN_BITS ) {
+        if( (this_board & wb) == (wb & O_WON) ) {
+            wonBoards |= (O << 2*boardNum);
+            break;
+        }
+        if( (this_board & wb) == (wb & X_WON) ) {
+            wonBoards |= (X << 2*boardNum);
+            break;
+        }
+    }
 }
