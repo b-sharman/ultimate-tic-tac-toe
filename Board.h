@@ -1,5 +1,6 @@
 class Board {
 public:
+    bool is_invalid_input( const int boardNum, const int squareNum ) const;
     /* @brief return the index of the first bit of a certain square on the board
      *
      * boardNum and squareNum, each of which must be in the interval [0, 8],
@@ -11,7 +12,6 @@ public:
      * The offset is from the right, not the left, for convenience with
      * bitset.set() and bitset.test().
      */
-    bool is_invalid_input( const int boardNum, const int squareNum ) const;
     int offset( const int boardNum, const int squareNum ) const;
     void print() const;
     unsigned long getSquare( const int& boardNum, const int& squareNum ) const;
