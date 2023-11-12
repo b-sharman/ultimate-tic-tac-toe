@@ -16,7 +16,7 @@ int Board::offset( const int boardNum, const int squareNum ) const {
     if( is_invalid_input( boardNum, squareNum ) ) {
         throw out_of_range( "square reference out of bounds" );
     }
-    return 160 - boardNum*18+squareNum*2;
+    return boardNum*18+squareNum*2;
 }
 
 void Board::print() const {
