@@ -1,7 +1,12 @@
 class Board {
 public:
+    /* @brief return whether a board number and square number are out of bounds
+     *
+     * "out of bounds" means not in the interval [0, 8]
+     */
     bool is_invalid_input( const int boardNum, const int squareNum ) const;
-    /* @brief return the index of the first bit of a certain square on the board
+
+    /* @brief return the index of the rightmost bit of a certain square
      *
      * boardNum and squareNum, each of which must be in the interval [0, 8],
      * inclusive, specify which board number and square number, respectively,
@@ -12,10 +17,21 @@ public:
      * The offset is from the right, not the left, for convenience with
      * bitset.set() and bitset.test().
      */
-    int offset( const int boardNum, const int squareNum ) const;
+    int offset( const int, const int ) const;
+
+    /* @brief print the board with std::cout */
     void print() const;
-    unsigned long getSquare( const int& boardNum, const int& squareNum ) const;
-    void setSquare( const int& boardNum, const int& squareNum, const int& value );
+
+    /* @brief return the value of any square on the board
+     *
+     * throws an error if boardNum or squareNum do not pass is_invalid_input
+     */
+    unsigned long getSquare( const int&, const int& ) const;
+
+    /* @brief set the value of any square on the board */
+    void setSquare( const int&, const int&, const int& );
+
 private:
+    // 9*9 = 81 squares, 81 * 2 bits per square = 162 bits
     std::bitset<162> board;
 };

@@ -35,11 +35,16 @@ void Board::print() const {
 }
 
 unsigned long Board::getSquare( const int& boardNum, const int& squareNum ) const {
-    return ((board >> (offset( boardNum, squareNum ))) & bitset<162>(0b11)).to_ulong();
+    // shift the board so that the desired square is at the rightmost two bits,
+    // then bitwise AND with 11 to remove any other bits, then convert to
+    // unsigned long
+    return ((board >> offset( boardNum, squareNum )) & THREE).to_ulong();
 }
 
 void Board::setSquare( const int& boardNum, const int& squareNum, const int& value ) {
     int o = offset( boardNum, squareNum );
+    // the first argument of set counts from the right, so the first digit has
+    // an index 1 greater than the second
     board.set( o+1, value >> 1 );  // first digit
     board.set( o, value & 0b1 );   // second digit
 }
