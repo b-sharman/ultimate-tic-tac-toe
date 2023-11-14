@@ -3,7 +3,7 @@
 #include <ostream>
 #include <stdexcept>
 
-#include "Board.h"
+#include "board.h"
 #include "constants.h"
 
 using namespace std;
