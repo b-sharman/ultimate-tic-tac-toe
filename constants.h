@@ -28,6 +28,7 @@ constexpr array<bitset<162>, 8> WIN_BITS
 // cannot be constexpr because std::unordered_map is not literal
 const unordered_map<int,char> INT_CHAR_MAP = {{X, 'X'}, {O, 'O'}, {BLANK, ' '}};
 const unordered_map<char,int> CHAR_INT_MAP = {{'X', X}, {'O', O}};
+const unordered_map<int,int> NEXT_PLAYER = {{X, O}, {O, X}};
 
 // cannot be constexpr because std::string is not literal
 const string BIG_O {"/`\\| |\\_/"};
