@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "board.h"
+#include "Board.h"
 #include "constants.h"
 
 using namespace std;
