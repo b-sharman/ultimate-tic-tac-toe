@@ -15,14 +15,7 @@ Board::Board() {
     wonBoards.reset();
 }
 
-bool Board::is_invalid_input( const int boardNum, const int squareNum ) const {
-    return boardNum < 0 || boardNum > 8 || squareNum < 0 || squareNum > 8;
-}
-
 int Board::offset( const int boardNum, const int squareNum ) const {
-    if( is_invalid_input( boardNum, squareNum ) ) {
-        throw out_of_range( "square reference out of bounds" );
-    }
     return boardNum*18+squareNum*2;
 }
 
@@ -47,6 +40,10 @@ void Board::print() const {
         if( i==26 || i==53 ) cout << "-----------------------\n";
     }
     cout << flush;
+}
+
+bool Board::isBoardWon( const int& boardNum ) const {
+    return checkWon( (board >> boardNum*18) & BOARD_ONES );
 }
 
 unsigned long Board::getSquare( const int& boardNum, const int& squareNum ) const {

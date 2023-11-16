@@ -7,24 +7,39 @@
 
 using namespace std;
 
+void promptNumber( const string& prompt, int* result ) {
+    *result = -1;
+    while( *result < 0 || *result > 8 ) {
+        cout << prompt;
+        cin >> *result;
+    }
+}
+
 int main() {
     Board board;
     board.print();
 
-    int bn, sn;  // board number, square number
+    // board number or -1 if any board is legal
+    int nextBoard {-1};
+    int sn;  // square number
     int currentPlayer {X};
     while( board.getWinner() == BLANK ) {
-        cout << '[' << INT_CHAR_MAP.at(currentPlayer)
-            << "] Enter board number and square number, separated by spaces: ";
-        cin >> bn >> sn;
-        if( board.is_invalid_input( bn, sn ) ) {
-            cout << "That is not a valid square." << endl;
+        if( nextBoard == -1 ) {
+            promptNumber(
+                string("[") + INT_CHAR_MAP.at(currentPlayer) + "] Enter board number: ",
+                &nextBoard
+            );
         }
-        else {
-            board.setSquare( bn, sn, currentPlayer );
-            board.print();
-            currentPlayer = NEXT_PLAYER.at(currentPlayer);
-        }
+        promptNumber(
+            string("[") + INT_CHAR_MAP.at(currentPlayer) + " on board "
+                        + to_string(nextBoard) + "] Enter square number: ",
+            &sn
+        );
+        board.setSquare( nextBoard, sn, currentPlayer );
+        board.print();
+        currentPlayer = NEXT_PLAYER.at(currentPlayer);
+
+        nextBoard = board.isBoardWon( sn ) ? -1 : sn;
     }
     cout << INT_CHAR_MAP.at( board.getWinner() ) << " won!" << endl;
 
