@@ -2,7 +2,7 @@
 # the below example
 
 TARGET = fp
-SRC_FILES = main.cpp Board.cpp
+SRC_FILES = main.cpp Board.cpp outOfBounds.cpp
 
 # NO EDITS NEEDED BELOW THIS LINE
 

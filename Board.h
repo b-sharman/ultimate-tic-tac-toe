@@ -19,13 +19,13 @@ public:
 
     /* @brief return if a certain board [0-8] has been won
      *
-     * warning: this function does not perform bounds checking
+     * returns true if the board number is outside the interval [0, 8]
      */
     bool isBoardWon( const int& ) const;
 
     /* @brief return the value of any square on the board
      *
-     * throws an error if boardNum or squareNum do not pass is_invalid_input
+     * returns true if either argument is outside the interval [0, 8]
      */
     unsigned long getSquare( const int&, const int& ) const;
 

@@ -5,6 +5,7 @@
 
 #include "Board.h"
 #include "constants.h"
+#include "outOfBounds.h"
 
 using namespace std;
 
@@ -43,10 +44,12 @@ void Board::print() const {
 }
 
 bool Board::isBoardWon( const int& boardNum ) const {
+    if( outOfBounds( boardNum ) ) return true;
     return checkWon( (board >> boardNum*18) & BOARD_ONES );
 }
 
 unsigned long Board::getSquare( const int& boardNum, const int& squareNum ) const {
+    if( outOfBounds( boardNum ) || outOfBounds( squareNum ) ) return true;
     // shift the board so that the desired square is at the rightmost two bits,
     // then bitwise AND with 11 to remove any other bits, then convert to
     // unsigned long

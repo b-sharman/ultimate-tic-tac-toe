@@ -4,12 +4,21 @@
 
 #include "Board.h"
 #include "constants.h"
+#include "outOfBounds.h"
 
 using namespace std;
 
-void promptNumber( const string& prompt, int* result ) {
+void promptBoardNumber( const string& prompt, int* result, const Board& board ) {
     *result = -1;
-    while( *result < 0 || *result > 8 ) {
+    while( outOfBounds( *result ) || board.isBoardWon( *result ) ) {
+        cout << prompt;
+        cin >> *result;
+    }
+}
+
+void promptSquareNumber( const string& prompt, int* result, const int& boardNum, const Board& board ) {
+    *result = -1;
+    while( outOfBounds( *result ) || board.getSquare( boardNum, *result ) ) {
         cout << prompt;
         cin >> *result;
     }
@@ -25,15 +34,18 @@ int main() {
     int currentPlayer {X};
     while( board.getWinner() == BLANK ) {
         if( nextBoard == -1 ) {
-            promptNumber(
+            promptBoardNumber(
                 string("[") + INT_CHAR_MAP.at(currentPlayer) + "] Enter board number: ",
-                &nextBoard
+                &nextBoard,
+                board
             );
         }
-        promptNumber(
+        promptSquareNumber(
             string("[") + INT_CHAR_MAP.at(currentPlayer) + " on board "
                         + to_string(nextBoard) + "] Enter square number: ",
-            &sn
+            &sn,
+            nextBoard,
+            board
         );
         board.setSquare( nextBoard, sn, currentPlayer );
         board.print();
