@@ -1,5 +1,6 @@
 #include <bitset>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 #include "Board.h"
@@ -8,20 +9,37 @@
 
 using namespace std;
 
-void promptBoardNumber( const string& prompt, int* result, const Board& board ) {
+/* @brief prompts user for an integer with custom bounds checking
+ *
+ * if boundsChecker returns true, the user's input will not be accepted.
+ */
+template<typename F>
+void promptNumber( const string& prompt, int* result, const F& boundsChecker ) {
     *result = -1;
-    while( outOfBounds( *result ) || board.isBoardWon( *result ) ) {
+    string input;
+    while( boundsChecker() ) {
         cout << prompt;
-        cin >> *result;
+        cin >> input;
+        try { *result = stoi( input ); }
+        catch( const invalid_argument& ) {}
+        catch( const out_of_range& ) {}
     }
 }
 
+void promptBoardNumber( const string& prompt, int* result, const Board& board ) {
+    promptNumber(
+        prompt,
+        result,
+        [result, board]() { return outOfBounds( *result ) || board.isBoardWon( *result ); }
+    );
+}
+
 void promptSquareNumber( const string& prompt, int* result, const int& boardNum, const Board& board ) {
-    *result = -1;
-    while( outOfBounds( *result ) || board.getSquare( boardNum, *result ) ) {
-        cout << prompt;
-        cin >> *result;
-    }
+    promptNumber(
+        prompt,
+        result,
+        [result, board, boardNum]() { return outOfBounds( *result ) || board.getSquare( boardNum, *result ); }
+    );
 }
 
 int main() {
