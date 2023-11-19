@@ -30,7 +30,9 @@ void promptBoardNumber( const string& prompt, int* result, const Board& board ) 
     promptNumber(
         prompt,
         result,
-        [result, board]() { return outOfBounds( *result ) || board.isBoardWon( *result ); }
+        [result, board]() {
+            return outOfBounds( *result ) || board.isBoardWon( *result );
+        }
     );
 }
 
@@ -38,7 +40,9 @@ void promptSquareNumber( const string& prompt, int* result, const int& boardNum,
     promptNumber(
         prompt,
         result,
-        [result, board, boardNum]() { return outOfBounds( *result ) || board.getSquare( boardNum, *result ); }
+        [result, board, boardNum]() {
+            return outOfBounds( *result ) || board.getSquare( boardNum, *result );
+        }
     );
 }
 
