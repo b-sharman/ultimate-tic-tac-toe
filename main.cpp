@@ -1,5 +1,6 @@
 #include <bitset>
 #include <iostream>
+#include <fstream>
 #include <stdexcept>
 #include <string>
 
@@ -47,6 +48,9 @@ void promptSquareNumber( const string& prompt, int* result, const int& boardNum,
 }
 
 int main() {
+    // load file for writing
+    ofstream fileWriter ("game.txt");
+
     Board board;
     board.print();
 
@@ -69,6 +73,7 @@ int main() {
             nextBoard,
             board
         );
+        fileWriter << currentPlayer << ' ' << nextBoard << ' ' << sn << '\n';
         board.setSquare( nextBoard, sn, currentPlayer );
         board.print();
         currentPlayer = NEXT_PLAYER.at(currentPlayer);
@@ -76,6 +81,8 @@ int main() {
         nextBoard = board.isBoardWon( sn ) ? -1 : sn;
     }
     cout << INT_CHAR_MAP.at( board.getWinner() ) << " won!" << endl;
+
+    fileWriter.close();
 
     return 0;
 }
