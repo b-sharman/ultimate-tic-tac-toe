@@ -3,6 +3,8 @@
 
 TARGET = fp
 SRC_FILES = main.cpp Board.cpp outOfBounds.cpp
+# TARGET = replay
+# SRC_FILES = replay.cpp Board.cpp outOfBounds.cpp
 
 # NO EDITS NEEDED BELOW THIS LINE
 
