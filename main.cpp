@@ -47,9 +47,17 @@ void promptSquareNumber( const string& prompt, int* result, const int& boardNum,
     );
 }
 
-int main() {
-    // load file for writing
-    ofstream fileWriter ("game.txt");
+int main(int argc, char* argv[]) {
+    ifstream fileReader;
+    ofstream fileWriter;
+    if (argc < 2) {
+        cout << "A record of this game will be written to 'game.txt'.\n"
+             << "To replay a previous game, put its filename as a command line argument." << endl;
+        fileWriter.open("game.txt");
+    } else {
+        cout << "Reading from " << argv[1] << endl;
+        fileReader.open(argv[1]);
+    }
 
     Board board;
     board.print();
@@ -59,26 +67,36 @@ int main() {
     int sn;  // square number
     int currentPlayer {X};
     while( board.getWinner() == BLANK ) {
-        if( nextBoard == -1 ) {
-            promptBoardNumber(
-                string("[") + INT_CHAR_MAP.at(currentPlayer) + "] Enter board number: ",
-                &nextBoard,
+        if (argc < 2) {
+            if( nextBoard == -1 ) {
+                promptBoardNumber(
+                    string("[") + INT_CHAR_MAP.at(currentPlayer) + "] Enter board number: ",
+                    &nextBoard,
+                    board
+                );
+            }
+            promptSquareNumber(
+                string("[") + INT_CHAR_MAP.at(currentPlayer) + " on board "
+                            + to_string(nextBoard) + "] Enter square number: ",
+                &sn,
+                nextBoard,
                 board
             );
+            fileWriter << currentPlayer << ' ' << nextBoard << ' ' << sn << '\n';
         }
-        promptSquareNumber(
-            string("[") + INT_CHAR_MAP.at(currentPlayer) + " on board "
-                        + to_string(nextBoard) + "] Enter square number: ",
-            &sn,
-            nextBoard,
-            board
-        );
-        fileWriter << currentPlayer << ' ' << nextBoard << ' ' << sn << '\n';
+        else {
+            // TODO: throw an error if game.txt is empty
+            fileReader >> currentPlayer >> nextBoard >> sn;
+            cout << endl << INT_CHAR_MAP.at(currentPlayer) << " goes on board " << nextBoard << ", square " << sn << endl;
+        }
+
         board.setSquare( nextBoard, sn, currentPlayer );
         board.print();
-        currentPlayer = NEXT_PLAYER.at(currentPlayer);
 
-        nextBoard = board.isBoardWon( sn ) ? -1 : sn;
+        if (argc < 2) {
+            currentPlayer = NEXT_PLAYER.at(currentPlayer);
+            nextBoard = board.isBoardWon( sn ) ? -1 : sn;
+        }
     }
     cout << INT_CHAR_MAP.at( board.getWinner() ) << " won!" << endl;
 
