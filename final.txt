@@ -1,0 +1,9 @@
+Byron Sharman
+CSCI 200 Section F
+Ultimate Tic-Tac-Toe
+
+Ultimate Tic-Tac-Toe is a variant of the popular game tic-tac-toe in which each square is another tic-tac-toe board. Players can only play on the board corresponding to the square the previous player placed on. This project implements a text-based version of the game in C++.
+
+The project does not require any external libraries, nor does it require an especially modern version of C++. It stores the board as a bitset of 162 bits; each pair of bits corresponds to a square on the board. The squares are stored in order of each board, from 0 to 9, and inside each board, the squares are stored from 0 to 9. In both cases, the indices are in row-major order.
+
+The program writes to and reads from a file format that will replay prior games.
