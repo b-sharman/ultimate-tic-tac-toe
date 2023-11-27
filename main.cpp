@@ -16,7 +16,7 @@ using namespace std;
  */
 template<typename F>
 void promptNumber( const string& prompt, int* result, const F& boundsChecker ) {
-    *result = -1
+    *result = -1;
     string input;
     while( boundsChecker() ) {
         cout << prompt;
