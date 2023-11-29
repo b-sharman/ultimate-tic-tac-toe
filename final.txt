@@ -1,9 +1,31 @@
+Title
+-----
 Byron Sharman
 CSCI 200 Section F
 Ultimate Tic-Tac-Toe
 
+Problem Description
+-------------------
 Ultimate Tic-Tac-Toe is a variant of the popular game tic-tac-toe in which each square is another tic-tac-toe board. Players can only play on the board corresponding to the square the previous player placed on. This project implements a text-based version of the game in C++.
 
+Program Documentation
+---------------------
 The project does not require any external libraries, nor does it require an especially modern version of C++. It stores the board as a bitset of 162 bits; each pair of bits corresponds to a square on the board. The squares are stored in order of each board, from 0 to 9, and inside each board, the squares are stored from 0 to 9. In both cases, the indices are in row-major order.
 
-The program writes to and reads from a file format that will replay prior games.
+No dependencies are required; simply type "make" to compile and run the resulting executable. C++20 is the version I have tested. The finished version matches the proposal quite closely with the exception that some of the UML has changed. For example, an offset helper function was created to calculate the indexing offset of a certain board number and square number, and some of the function names have been changed for clarity.
+
+Class Description
+-----------------
+The project's sole class is a Board, whose name is self-explanatory. One advantage of object-oriented programming in this scenario is that having a class means convenient access to a universal bitset instance. A functional implementation would require passing the board to each class computation (printing the board, checking for winners, setting a square, etc.), which might get unwieldy.
+
+List Data Structure
+-------------------
+As planned, an std::bitset<162> was used to store the game board. Computation of winners, among other required actions, is performed entirely with bitwise operations. Because of the difficulties of resizing bitsets, it actually proved to be easiest to make other constants also have size 162.
+
+File I/O
+--------
+When playing a game, the program records moves to a file called "game.txt". The name of such a file can be passed in as a command line argument to cause the program to replay the recorded game.
+
+Reflections
+-----------
+I had never used std::bitset before, nor had I done much with bitwise logic, so I learned a lot by forcing myself to use this implementation rather than the more straightforward 2D array of chars. In retrospect, the data structure probably doesn't actually save much space, if any, given how many other 162-bit constants I created---constants that could have been just 4 bits with an array of chars. However, it proved to be a fun exercise in shifting and ANDs and ORs, and I'm glad that I ventured to be creative in this way.
