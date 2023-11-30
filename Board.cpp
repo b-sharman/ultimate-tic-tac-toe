@@ -1,6 +1,5 @@
 #include <bitset>
 #include <iostream>
-#include <ostream>
 #include <stdexcept>
 
 #include "Board.h"
