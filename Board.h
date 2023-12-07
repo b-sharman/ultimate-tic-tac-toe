@@ -1,3 +1,6 @@
+#ifndef BOARD
+#define BOARD
+
 class Board {
 public:
     Board();
@@ -54,3 +57,5 @@ private:
      */
     unsigned long checkWon( const std::bitset<162>& ) const;
 };
+
+#endif
